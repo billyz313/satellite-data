@@ -1,0 +1,44 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+venv/
+.env/
+
+# Django secret key and environment variables
+.env
+*.env
+config/settings/local.py
+config/settings/*.json
+
+# Django stuff:
+db.sqlite3
+db.sqlite3-journal
+db.sqlite3-shm
+db.sqlite3-wal
+/media/
+/staticfiles/
+/static/
+
+# Logs
+logs/
+*.log
+
+# Migrations (optional, if you don't want to include them in version control)
+*/migrations/__pycache__/
+*/migrations/*.pyc
+
+# Node.js
+node_modules/
+
+# IDE and editor files
+.vscode/
+.idea/
+*.sublime-workspace
+
+# MacOS and Linux system files
+.DS_Store
+Thumbs.db
+data.json
