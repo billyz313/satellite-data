@@ -162,12 +162,6 @@ LOGGING = {
             'class': 'logging.StreamHandler',
             'formatter': 'verbose',
         },
-        'file': {
-            'level': 'INFO',
-            'class': 'logging.FileHandler',
-            'filename': BASE_DIR / 'logs' / 'apde_cleanroom.log',
-            'formatter': 'verbose',
-        },
     },
     'loggers': {
         'django': {
@@ -176,12 +170,12 @@ LOGGING = {
             'propagate': False,
         },
         'conservation': {
-            'handlers': ['console', 'file'],
+            'handlers': ['console'],
             'level': 'INFO',
             'propagate': False,
         },
         'conservation.utils.data_fetchers': {
-            'handlers': ['console', 'file'],
+            'handlers': ['console'],
             'level': 'INFO',
             'propagate': False,
         },
