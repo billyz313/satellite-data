@@ -6,309 +6,375 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Satellite Data API - Interactive Form</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.css"/>
     <style>
         #map, #map2 {
-        height: 400px;
-        width: 100%;
-        margin-bottom: 20px;
-        position: relative;
-        z-index: 1;
-    }
-
-    .tab-pane {
-        width: 100%;
-    }
-
-    .result-container {
-        max-height: 600px;
-        overflow-y: auto;
-        background: #f8f9fa;
-        padding: 15px;
-        border-radius: 5px;
-    }
-
-    .loading {
-        display: none;
-        text-align: center;
-        padding: 20px;
-    }
-
-    .spinner-border {
-        width: 3rem;
-        height: 3rem;
-    }
-
-    pre {
-        background: #fff;
-        padding: 15px;
-        border-radius: 5px;
-        border: 1px solid #dee2e6;
-    }
-
-    .nav-tabs .nav-link.active {
-        font-weight: bold;
-    }
-
-    .coordinate-display {
-        background: #e9ecef;
-        padding: 10px;
-        border-radius: 5px;
-        margin-top: 10px;
-        font-family: monospace;
-        font-size: 0.9em;
-    }
-
-    .card {
-        border: 1px solid #dee2e6;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-    }
-
-    .card-body {
-        padding: 1rem;
-    }
-
-    .card-title {
-        margin-bottom: 0.75rem;
-        font-size: 0.95rem;
-        color: #495057;
-    }
-
-    .card-text {
-        margin-bottom: 0;
-        font-size: 0.9rem;
-        line-height: 1.5;
-    }
-
-    .alert-info {
-        background-color: #e7f3ff;
-        border-color: #b3d9ff;
-        color: #004085;
-    }
-
-    .alert-info .alert-heading {
-        color: #003d7a;
-    }
-
-    .badge {
-        padding: 0.35em 0.65em;
-        font-size: 0.85em;
-    }
-
-    /* Leaflet map fixes */
-    .leaflet-container {
-        height: 100%;
-        width: 100%;
-    }
-
-    /* Ensure tab content takes full width */
-    .tab-content > .tab-pane {
-        display: none;
-    }
-
-    .tab-content > .active {
-        display: block;
-    }
-        #results{
+            height: 400px;
+            width: 100%;
             margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .tab-pane {
+            width: 100%;
+        }
+
+        .result-container {
+            max-height: 600px;
+            overflow-y: auto;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .spinner-border {
+            width: 3rem;
+            height: 3rem;
+        }
+
+        pre {
+            background: #fff;
+            padding: 15px;
+            border-radius: 5px;
+            border: 1px solid #dee2e6;
+        }
+
+        .nav-tabs .nav-link.active {
+            font-weight: bold;
+        }
+
+        .coordinate-display {
+            background: #e9ecef;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+            font-family: monospace;
+            font-size: 0.9em;
+        }
+
+        .card {
+            border: 1px solid #dee2e6;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-body {
+            padding: 1rem;
+        }
+
+        .card-title {
+            margin-bottom: 0.75rem;
+            font-size: 0.95rem;
+            color: #495057;
+        }
+
+        .card-text {
+            margin-bottom: 0;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .alert-info {
+            background-color: #e7f3ff;
+            border-color: #b3d9ff;
+            color: #004085;
+        }
+
+        .alert-info .alert-heading {
+            color: #003d7a;
+        }
+
+        .badge {
+            padding: 0.35em 0.65em;
+            font-size: 0.85em;
+        }
+
+        /* Leaflet map fixes */
+        .leaflet-container {
+            height: 100%;
+            width: 100%;
+        }
+
+        /* Ensure tab content takes full width */
+        .tab-content > .tab-pane {
+            display: none;
+        }
+
+        .tab-content > .active {
+            display: block;
+        }
+
+        #results {
+            margin-bottom: 20px;
+        }
+
+        /* Layer control styling */
+        .leaflet-control-layers {
+            box-shadow: 0 1px 5px rgba(0,0,0,0.4);
+            border-radius: 5px;
+            background: white;
+        }
+
+        .leaflet-control-layers-toggle {
+            width: 36px;
+            height: 36px;
+            background-color: white;
+            background-image: none;
+        }
+
+        .leaflet-control-layers-toggle:after {
+            content: '🗺️';
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
         }
     </style>
 </head>
 <body>
-    <div class="container mt-5">
-        <h1 class="mb-4">🛰️ Satellite Data API - Interactive Interface</h1>
+<div class="container mt-5">
+    <h1 class="mb-4">🛰️ Satellite Data API - Interactive Interface</h1>
 
-        <div class="card mb-4">
-            <div class="card-header">
-                <ul class="nav nav-tabs card-header-tabs" id="queryTabs" role="tablist">
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link active" id="point-tab" data-bs-toggle="tab"
-                                data-bs-target="#point" type="button" role="tab">
-                            📍 Point Query
+    <div class="card mb-4">
+        <div class="card-header">
+            <ul class="nav nav-tabs card-header-tabs" id="queryTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="point-tab" data-bs-toggle="tab"
+                            data-bs-target="#point" type="button" role="tab">
+                        📍 Point Query
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="polygon-tab" data-bs-toggle="tab"
+                            data-bs-target="#polygon" type="button" role="tab">
+                        🔷 Polygon Query
+                    </button>
+                </li>
+            </ul>
+        </div>
+        <div class="card-body">
+            <div class="tab-content" id="queryTabsContent">
+                <!-- Point Query Tab -->
+                <div class="tab-pane fade show active" id="point" role="tabpanel">
+                    <h5>Select Point Location</h5>
+                    <p class="text-muted">Click on the map to select a point, or enter coordinates manually</p>
+
+                    <div id="map"></div>
+
+                    <form id="pointForm">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label class="form-label">Latitude</label>
+                                <input type="number" class="form-control" id="lat" name="lat"
+                                       step="0.000001" min="-90" max="90" required
+                                       value="38.057304">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Longitude</label>
+                                <input type="number" class="form-control" id="lon" name="lon"
+                                       step="0.000001" min="-180" max="180" required
+                                       value="-101.054197">
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Start Date</label>
+                                <input type="date" class="form-control" id="point_start_date"
+                                       name="start_date" required value="2020-01-01">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">End Date</label>
+                                <input type="date" class="form-control" id="point_end_date"
+                                       name="end_date" required value="2024-12-31">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary mt-3">
+                            🚀 Fetch Data
                         </button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="polygon-tab" data-bs-toggle="tab"
-                                data-bs-target="#polygon" type="button" role="tab">
-                            🔷 Polygon Query
+                    </form>
+                </div>
+
+                <!-- Polygon Query Tab -->
+                <div class="tab-pane fade" id="polygon" role="tabpanel">
+                    <h5>Draw or Paste Polygon</h5>
+                    <p class="text-muted">Use the drawing tools on the map, or paste GeoJSON/coordinates below</p>
+
+                    <div id="map2"></div>
+
+                    <form id="polygonForm">
+                        <div class="mb-3">
+                            <label class="form-label">Polygon Data</label>
+                            <textarea class="form-control" id="polygon_data" name="polygon"
+                                      rows="4" placeholder='Paste GeoJSON, coordinate array, or draw on map'></textarea>
+                            <small class="form-text text-muted">
+                                Accepts: Flat array, coordinate pairs, GeoJSON Polygon, Feature, or FeatureCollection
+                            </small>
+                        </div>
+
+                        <div id="coordinateDisplay" class="coordinate-display" style="display: none;">
+                            <strong>Detected Format:</strong> <span id="formatType"></span><br>
+                            <strong>Number of Points:</strong> <span id="pointCount"></span>
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Start Date</label>
+                                <input type="date" class="form-control" id="polygon_start_date"
+                                       name="start_date" required value="2020-01-01">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">End Date</label>
+                                <input type="date" class="form-control" id="polygon_end_date"
+                                       name="end_date" required value="2024-12-31">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary mt-3">
+                            🚀 Fetch Data
                         </button>
-                    </li>
-                </ul>
-            </div>
-            <div class="card-body">
-                <div class="tab-content" id="queryTabsContent">
-                    <!-- Point Query Tab -->
-                    <div class="tab-pane fade show active" id="point" role="tabpanel">
-                        <h5>Select Point Location</h5>
-                        <p class="text-muted">Click on the map to select a point, or enter coordinates manually</p>
-
-                        <div id="map"></div>
-
-                        <form id="pointForm">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <label class="form-label">Latitude</label>
-                                    <input type="number" class="form-control" id="lat" name="lat"
-                                           step="0.000001" min="-90" max="90" required
-                                           value="38.057304">
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label">Longitude</label>
-                                    <input type="number" class="form-control" id="lon" name="lon"
-                                           step="0.000001" min="-180" max="180" required
-                                           value="-101.054197">
-                                </div>
-                            </div>
-                            <div class="row mt-3">
-                                <div class="col-md-6">
-                                    <label class="form-label">Start Date</label>
-                                    <input type="date" class="form-control" id="point_start_date"
-                                           name="start_date" required value="2020-01-01">
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label">End Date</label>
-                                    <input type="date" class="form-control" id="point_end_date"
-                                           name="end_date" required value="2024-12-31">
-                                </div>
-                            </div>
-                            <button type="submit" class="btn btn-primary mt-3">
-                                🚀 Fetch Data
-                            </button>
-                        </form>
-                    </div>
-
-                    <!-- Polygon Query Tab -->
-                    <div class="tab-pane fade" id="polygon" role="tabpanel">
-                        <h5>Draw or Paste Polygon</h5>
-                        <p class="text-muted">Use the drawing tools on the map, or paste GeoJSON/coordinates below</p>
-
-                        <div id="map2"></div>
-
-                        <form id="polygonForm">
-                            <div class="mb-3">
-                                <label class="form-label">Polygon Data</label>
-                                <textarea class="form-control" id="polygon_data" name="polygon"
-                                          rows="4" placeholder='Paste GeoJSON, coordinate array, or draw on map'></textarea>
-                                <small class="form-text text-muted">
-                                    Accepts: Flat array, coordinate pairs, GeoJSON Polygon, Feature, or FeatureCollection
-                                </small>
-                            </div>
-
-                            <div id="coordinateDisplay" class="coordinate-display" style="display: none;">
-                                <strong>Detected Format:</strong> <span id="formatType"></span><br>
-                                <strong>Number of Points:</strong> <span id="pointCount"></span>
-                            </div>
-
-                            <div class="row mt-3">
-                                <div class="col-md-6">
-                                    <label class="form-label">Start Date</label>
-                                    <input type="date" class="form-control" id="polygon_start_date"
-                                           name="start_date" required value="2020-01-01">
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label">End Date</label>
-                                    <input type="date" class="form-control" id="polygon_end_date"
-                                           name="end_date" required value="2024-12-31">
-                                </div>
-                            </div>
-                            <button type="submit" class="btn btn-primary mt-3">
-                                🚀 Fetch Data
-                            </button>
-                            <button type="button" class="btn btn-secondary mt-3" id="clearPolygon">
-                                🗑️ Clear Polygon
-                            </button>
-                        </form>
-                    </div>
+                        <button type="button" class="btn btn-secondary mt-3" id="clearPolygon">
+                            🗑️ Clear Polygon
+                        </button>
+                    </form>
                 </div>
-            </div>
-        </div>
-
-        <!-- Loading Indicator -->
-        <div class="loading" id="loading">
-            <div class="spinner-border text-primary" role="status">
-                <span class="visually-hidden">Loading...</span>
-            </div>
-            <p class="mt-3">Fetching satellite data from OpenET...</p>
-        </div>
-
-        <!-- Results -->
-        <div id="results" style="display: none;">
-            <div class="card">
-                <div class="card-header bg-success text-white">
-                    <h5 class="mb-0">✅ Results</h5>
-                </div>
-                <div class="card-body">
-                    <ul class="nav nav-tabs mb-3" id="resultTabs" role="tablist">
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link active" id="summary-tab" data-bs-toggle="tab"
-                                    data-bs-target="#summary" type="button" role="tab">
-                                📊 Summary
-                            </button>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="json-tab" data-bs-toggle="tab"
-                                    data-bs-target="#json" type="button" role="tab">
-                                📄 Full JSON
-                            </button>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="curl-tab" data-bs-toggle="tab"
-                                    data-bs-target="#curl" type="button" role="tab">
-                                💻 cURL Command
-                            </button>
-                        </li>
-                    </ul>
-
-                    <div class="tab-content" id="resultTabsContent">
-                        <div class="tab-pane fade show active" id="summary" role="tabpanel">
-                            <div id="summaryContent"></div>
-                        </div>
-                        <div class="tab-pane fade" id="json" role="tabpanel">
-                            <div class="result-container">
-                                <pre><code id="jsonResult"></code></pre>
-                            </div>
-                            <button class="btn btn-sm btn-outline-primary mt-2" id="copyJson">
-                                📋 Copy JSON
-                            </button>
-                        </div>
-                        <div class="tab-pane fade" id="curl" role="tabpanel">
-                            <div class="result-container">
-                                <pre><code id="curlCommand"></code></pre>
-                            </div>
-                            <button class="btn btn-sm btn-outline-primary mt-2" id="copyCurl">
-                                📋 Copy Command
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Error Display -->
-        <div id="error" style="display: none;">
-            <div class="alert alert-danger" role="alert">
-                <h5 class="alert-heading">❌ Error</h5>
-                <p id="errorMessage"></p>
             </div>
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script src="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.js"></script>
-    <script>
+    <!-- Loading Indicator -->
+    <div class="loading" id="loading">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+        <p class="mt-3">Fetching satellite data from OpenET...</p>
+    </div>
+
+    <!-- Results -->
+    <div id="results" style="display: none;">
+        <div class="card">
+            <div class="card-header bg-success text-white">
+                <h5 class="mb-0">✅ Results</h5>
+            </div>
+            <div class="card-body">
+                <ul class="nav nav-tabs mb-3" id="resultTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="summary-tab" data-bs-toggle="tab"
+                                data-bs-target="#summary" type="button" role="tab">
+                            📊 Summary
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="json-tab" data-bs-toggle="tab"
+                                data-bs-target="#json" type="button" role="tab">
+                            📄 Full JSON
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="curl-tab" data-bs-toggle="tab"
+                                data-bs-target="#curl" type="button" role="tab">
+                            💻 cURL Command
+                        </button>
+                    </li>
+                </ul>
+
+                <div class="tab-content" id="resultTabsContent">
+                    <div class="tab-pane fade show active" id="summary" role="tabpanel">
+                        <div id="summaryContent"></div>
+                    </div>
+                    <div class="tab-pane fade" id="json" role="tabpanel">
+                        <div class="result-container">
+                            <pre><code id="jsonResult"></code></pre>
+                        </div>
+                        <button class="btn btn-sm btn-outline-primary mt-2" id="copyJson">
+                            📋 Copy JSON
+                        </button>
+                    </div>
+                    <div class="tab-pane fade" id="curl" role="tabpanel">
+                        <div class="result-container">
+                            <pre><code id="curlCommand"></code></pre>
+                        </div>
+                        <button class="btn btn-sm btn-outline-primary mt-2" id="copyCurl">
+                            📋 Copy Command
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Error Display -->
+    <div id="error" style="display: none;">
+        <div class="alert alert-danger" role="alert">
+            <h5 class="alert-heading">❌ Error</h5>
+            <p id="errorMessage"></p>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.js"></script>
+<script>
     // Initialize maps
     let pointMap, polygonMap, pointMarker, drawnItems;
     let currentPolygonLayer = null;
+    let currentBaseLayer = 'Street Map'; // Track current base layer
+
+    // Define base layers (single instances to be shared)
+    function getBaseLayers() {
+        return {
+            'Street Map': L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors',
+                maxZoom: 19
+            }),
+            'Satellite': L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+                attribution: 'Tiles © Esri',
+                maxZoom: 19
+            }),
+            'Satellite (Labels)': L.layerGroup([
+                L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+                    attribution: 'Tiles © Esri',
+                    maxZoom: 19
+                }),
+                L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/toner-hybrid/{z}/{x}/{y}{r}.png', {
+                    attribution: 'Map tiles by Stamen Design, under CC BY 3.0. Data by OpenStreetMap, under ODbL.',
+                    maxZoom: 19,
+                    opacity: 0.4
+                })
+            ])
+        };
+    }
 
     // Point map initialization
     document.addEventListener('DOMContentLoaded', function() {
-        // Initialize point map
-        pointMap = L.map('map').setView([38.057304, -101.054197], 13);
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '© OpenStreetMap contributors'
+        // Initialize point map with default layer
+        const pointBaseLayers = getBaseLayers();
+
+        pointMap = L.map('map', {
+            center: [38.057304, -101.054197],
+            zoom: 13,
+            layers: [pointBaseLayers[currentBaseLayer]]
+        });
+
+        // Add layer control to point map
+        const pointLayerControl = L.control.layers(pointBaseLayers, null, {
+            position: 'topright',
+            collapsed: true
         }).addTo(pointMap);
+
+        // Listen for layer changes on point map
+        pointMap.on('baselayerchange', function(e) {
+            currentBaseLayer = e.name;
+            console.log('Base layer changed to:', currentBaseLayer);
+        });
 
         // Add click handler for point selection
         pointMap.on('click', function(e) {
@@ -331,69 +397,111 @@
     });
 
     function initPolygonMap() {
-        console.log('Initializing polygon map');
         if (!polygonMap) {
-            console.log('Polygon map not initialized, proceeding with initialization');
             setTimeout(function() {
-                polygonMap = L.map('map2').setView([38.057304, -101.054197], 13);
-                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                    attribution: '© OpenStreetMap contributors'
-                }).addTo(polygonMap);
+                try {
+                    // Get fresh base layers for polygon map
+                    const polygonBaseLayers = getBaseLayers();
 
-                // Initialize drawing controls
-                drawnItems = new L.FeatureGroup();
-                polygonMap.addLayer(drawnItems);
+                    // Initialize polygon map with the current base layer
+                    polygonMap = L.map('map2', {
+                        center: [38.057304, -101.054197],
+                        zoom: 13,
+                        layers: [polygonBaseLayers[currentBaseLayer]]
+                    });
 
-                let drawControl = new L.Control.Draw({
-                    edit: {
-                        featureGroup: drawnItems,
-                        remove: true
-                    },
-                    draw: {
-                        polygon: true,
-                        polyline: false,
-                        rectangle: true,
-                        circle: false,
-                        marker: false,
-                        circlemarker: false
-                    }
-                });
-                polygonMap.addControl(drawControl);
+                    // Add layer control to polygon map
+                    const polygonLayerControl = L.control.layers(polygonBaseLayers, null, {
+                        position: 'topright',
+                        collapsed: true
+                    }).addTo(polygonMap);
 
-                // Handle drawn polygons
-                polygonMap.on(L.Draw.Event.CREATED, function(e) {
-                    let layer = e.layer;
-                    drawnItems.clearLayers();
-                    drawnItems.addLayer(layer);
+                    // Listen for layer changes on polygon map
+                    polygonMap.on('baselayerchange', function(e) {
+                        currentBaseLayer = e.name;
+                        console.log('Base layer changed to:', currentBaseLayer);
+                    });
 
-                    let geojson = layer.toGeoJSON();
-                    document.getElementById('polygon_data').value = JSON.stringify(geojson, null, 2);
-                    updatePolygonInfo(geojson);
-                });
+                    // Initialize drawing controls
+                    drawnItems = new L.FeatureGroup();
+                    polygonMap.addLayer(drawnItems);
 
-                // Handle edited polygons
-                polygonMap.on(L.Draw.Event.EDITED, function(e) {
-                    let layers = e.layers;
-                    layers.eachLayer(function(layer) {
+                    let drawControl = new L.Control.Draw({
+                        position: 'topleft',
+                        edit: {
+                            featureGroup: drawnItems,
+                            remove: true
+                        },
+                        draw: {
+                            polygon: {
+                                allowIntersection: false,
+                                showArea: true,
+                                drawError: {
+                                    color: '#e1e100',
+                                    message: '<strong>Error:</strong> shape edges cannot cross!'
+                                },
+                                shapeOptions: {
+                                    color: '#3388ff',
+                                    fillColor: '#3388ff',
+                                    fillOpacity: 0.3
+                                }
+                            },
+                            polyline: false,
+                            rectangle: {
+                                shapeOptions: {
+                                    color: '#3388ff',
+                                    fillColor: '#3388ff',
+                                    fillOpacity: 0.3
+                                }
+                            },
+                            circle: false,
+                            marker: false,
+                            circlemarker: false
+                        }
+                    });
+                    polygonMap.addControl(drawControl);
+
+                    // Handle drawn polygons
+                    polygonMap.on(L.Draw.Event.CREATED, function(e) {
+                        let layer = e.layer;
+                        drawnItems.clearLayers();
+                        drawnItems.addLayer(layer);
+
                         let geojson = layer.toGeoJSON();
                         document.getElementById('polygon_data').value = JSON.stringify(geojson, null, 2);
                         updatePolygonInfo(geojson);
                     });
-                });
 
-                // Handle deleted polygons
-                polygonMap.on(L.Draw.Event.DELETED, function(e) {
-                    document.getElementById('polygon_data').value = '';
-                    document.getElementById('coordinateDisplay').style.display = 'none';
-                });
+                    // Handle edited polygons
+                    polygonMap.on(L.Draw.Event.EDITED, function(e) {
+                        let layers = e.layers;
+                        layers.eachLayer(function(layer) {
+                            let geojson = layer.toGeoJSON();
+                            document.getElementById('polygon_data').value = JSON.stringify(geojson, null, 2);
+                            updatePolygonInfo(geojson);
+                        });
+                    });
 
-                polygonMap.invalidateSize();
-            }, 100);
+                    // Handle deleted polygons
+                    polygonMap.on(L.Draw.Event.DELETED, function(e) {
+                        document.getElementById('polygon_data').value = '';
+                        document.getElementById('coordinateDisplay').style.display = 'none';
+                    });
+
+                    // Force map to recalculate size
+                    setTimeout(function() {
+                        polygonMap.invalidateSize();
+                    }, 200);
+
+                } catch (error) {
+                    console.error('Error initializing polygon map:', error);
+                }
+            }, 150);
         } else {
             // Map already exists, just refresh it
             setTimeout(function() {
                 polygonMap.invalidateSize();
-            }, 100);
+            }, 150);
         }
     }
 
@@ -446,42 +554,75 @@
             if (polygonMap && drawnItems) {
                 drawnItems.clearLayers();
 
-                // Extract coordinates and add to map
-                let coords = extractCoordinates(data);
-                if (coords && coords.length > 0) {
-                    let polygon = L.polygon(coords);
-                    drawnItems.addLayer(polygon);
-                    polygonMap.fitBounds(polygon.getBounds());
+                // Use L.geoJSON to properly handle GeoJSON data
+                if (data.type === 'FeatureCollection' || data.type === 'Feature' || data.type === 'Polygon') {
+                    // Use Leaflet's built-in GeoJSON handler
+                    let geoJsonLayer = L.geoJSON(data, {
+                        style: {
+                            color: '#3388ff',
+                            weight: 2,
+                            opacity: 0.8,
+                            fillColor: '#3388ff',
+                            fillOpacity: 0.3
+                        }
+                    });
+
+                    geoJsonLayer.eachLayer(function(layer) {
+                        drawnItems.addLayer(layer);
+                    });
+
+                    polygonMap.fitBounds(geoJsonLayer.getBounds());
+                } else {
+                    // Handle array formats
+                    let coords = extractCoordinatesForDisplay(data);
+                    if (coords && coords.length > 0) {
+                        let polygon = L.polygon(coords, {
+                            color: '#3388ff',
+                            weight: 2,
+                            opacity: 0.8,
+                            fillColor: '#3388ff',
+                            fillOpacity: 0.3
+                        });
+                        drawnItems.addLayer(polygon);
+                        polygonMap.fitBounds(polygon.getBounds());
+                    }
                 }
             }
         } catch (err) {
             // Invalid JSON, don't update
+            console.log('Invalid JSON or error displaying polygon:', err);
         }
     });
 
-    // Extract coordinates from various formats
-    function extractCoordinates(data) {
+    // Extract coordinates for display on map (handles coordinate transformation)
+    function extractCoordinatesForDisplay(data) {
         try {
-            if (data.type === 'FeatureCollection') {
-                return data.features[0].geometry.coordinates[0];
-            } else if (data.type === 'Feature') {
-                return data.geometry.coordinates[0];
-            } else if (data.type === 'Polygon') {
-                return data.coordinates[0];
-            } else if (Array.isArray(data)) {
+            if (Array.isArray(data)) {
                 if (typeof data[0] === 'number') {
                     // Flat array [lon, lat, lon, lat, ...]
+                    // OpenET format - convert to Leaflet format [lat, lon]
                     let coords = [];
                     for (let i = 0; i < data.length; i += 2) {
-                        coords.push([data[i+1], data[i]]); // Leaflet uses [lat, lon]
+                        coords.push([data[i+1], data[i]]); // [lat, lon]
                     }
                     return coords;
-                } else {
-                    // Array of pairs [[lon, lat], ...]
-                    return data.map(c => [c[1], c[0]]); // Leaflet uses [lat, lon]
+                } else if (Array.isArray(data[0])) {
+                    // Array of coordinate pairs
+                    // Detect format by checking coordinate ranges
+                    let firstCoord = data[0];
+
+                    // If first value is outside typical latitude range, it's longitude
+                    if (Math.abs(firstCoord[0]) > 90) {
+                        // Format is [lon, lat] - convert to [lat, lon]
+                        return data.map(c => [c[1], c[0]]);
+                    } else {
+                        // Format is likely [lat, lon] - keep as is
+                        return data;
+                    }
                 }
             }
         } catch (e) {
+            console.error('Error extracting coordinates for display:', e);
             return null;
         }
         return null;
