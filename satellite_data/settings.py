@@ -29,7 +29,7 @@ SECRET_KEY = "django-insecure-!76ffv4avdza&n7e@zvb78+cpsmho)+qw0(xdqdk-eqw8$t!y(
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "").split(",")
 
 OPENET_API_BASE_URL = 'https://openet-api.org'
 OPENET_API_KEY = os.getenv('OPENET_API_KEY', '')
