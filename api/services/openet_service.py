@@ -79,7 +79,7 @@ class OpenETService:
             'geometry': polygon,
             'date_range': [start_date, end_date],
             "file_format": "JSON",
-            "interval": "monthly",
+            "interval": "daily",
             "model": "Ensemble",
             "reference_et": "gridMET",
             "reducer": "mean",

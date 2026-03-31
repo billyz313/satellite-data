@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <title>OET WMS Layers Map</title>
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+    <style>
+        /* Remove margins and make map fullscreen */
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        #map {
+            height: 100%;
+            width: 100%;
+        }
+
+        /* Style the layer control */
+        .leaflet-control-layers {
+            font-family: Arial, sans-serif;
+        }
+
+        /* Optional: Add a title overlay */
+        .map-title {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 10px 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            font-family: Arial, sans-serif;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <!-- Optional title overlay -->
+    <div class="map-title">OpenET WMS Layers</div>
+
+    <!-- Map container -->
+    <div id="map"></div>
+
+    <!-- Leaflet JavaScript -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <script>
+        // Initialize the map - centered on the US
+        var map = L.map('map', {
+            center: [37.8, -96.0],
+            zoom: 5,
+            zoomControl: true
+        });
+
+        // Base layers
+        var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors',
+            maxZoom: 19
+        }).addTo(map);
+
+        var satellite = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+            attribution: 'Tiles © Esri',
+            maxZoom: 19
+        });
+
+        // WMS Base URL
+        var wmsUrl = 'https://geos.etdata.org/gwc/service/wms';
+
+        // OET:master layer
+        var oetMaster = L.tileLayer.wms(wmsUrl, {
+            layers: 'OET:master',
+            format: 'image/png',
+            transparent: true,
+            version: '1.1.1',
+            attribution: 'OpenET - Master Layer',
+            opacity: 0.7
+        });
+
+        // OET:openet_eastern layer
+        var oetEastern = L.tileLayer.wms(wmsUrl, {
+            layers: 'OET:openet_eastern',
+            format: 'image/png',
+            transparent: true,
+            version: '1.1.1',
+            attribution: 'OpenET - Eastern Layer',
+            opacity: 0.7
+        });
+
+        // Add both OET layers to the map by default
+        oetMaster.addTo(map);
+        oetEastern.addTo(map);
+
+        // Define base layers for the control
+        var baseLayers = {
+            "OpenStreetMap": osm,
+            "Satellite": satellite
+        };
+
+        // Define overlay layers for the control
+        var overlayLayers = {
+            "OET Master": oetMaster,
+            "OET Eastern": oetEastern
+        };
+
+        // Add layer control to the map
+        L.control.layers(baseLayers, overlayLayers, {
+            position: 'topright',
+            collapsed: false
+        }).addTo(map);
+
+        // Optional: Add scale control
+        L.control.scale({
+            position: 'bottomleft',
+            imperial: true,
+            metric: true
+        }).addTo(map);
+
+        // Optional: Log when layers are added/removed
+        map.on('overlayadd', function(e) {
+            console.log('Layer added:', e.name);
+        });
+
+        map.on('overlayremove', function(e) {
+            console.log('Layer removed:', e.name);
+        });
+    </script>
+</body>
+</html>

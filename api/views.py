@@ -165,3 +165,6 @@ class CachedSatelliteDataAPIView(SatelliteDataAPIView):
     @method_decorator(cache_page(60 * 60))
     def post(self, request, *args, **kwargs):
         return super().post(request, *args, **kwargs)
+
+def openet(request):
+    return render(request, 'api/openet.html')
